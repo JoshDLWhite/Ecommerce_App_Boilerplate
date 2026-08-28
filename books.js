@@ -1,7 +1,13 @@
-function renderBooks(filter) {
-  const booksWrapper = document.querySelector(`.books`);
+let books;
 
-  const books = getBooks();
+async function renderBooks(filter) {
+  const booksWrapper = document.querySelector(" .books");
+
+  document.body.classList += ` books__loading`
+  const books = await getBooks();
+document.body.classList.remove(`books__loading`);
+
+  console.log(books);
 
   
     if (filter === `LOW_TO_HIGH`) {
@@ -14,16 +20,16 @@ function renderBooks(filter) {
       books.sort((a, b) => b.rating - a.rating);
     }
   
-    let ratingsHTML = '';
+    let ratingsHTML = '';   //ratingsHTML is an empty string here
       for (let i = 0; i < Math.floor(4); ++i) {
-      ratingsHTML += `<i class="fas fa-star"></i>`
+      ratingsHTML += `<i class="fas fa-star"></i>`    //ratingsHTML is a string here
     } 
     if (!Number.isInteger(4)) {
-      ratingsHTML += `<i class="fas fa-star-half-alt"></i>`
+      ratingsHTML += `<i class="fas fa-star-half-alt"></i>`   //ratingsHTML is a string here
     }
 
-function ratingsHTML(rating) {
-let ratingsHTML = "";
+function ratingsHTML(rating) {    //ratingsHTML is a function here. 
+let ratingsHTML = '';
       for (let i = 0; i < Math.floor(rating); ++i) {
       ratingsHTML += `<i class="fas fa-star"></i>`
     } 
@@ -57,7 +63,7 @@ let ratingsHTML = "";
 
 }
 
-function ratingsHTML(rating) {
+function ratingsHTML(rating) {    ////ratingsHTML is a function here with 'rating' as its argument
 let ratingHTML = "";
     for (let i = 0; i < Math.floor(rating); ++i) {
       ratingHTML += `<i class="fas fa-star"></i>`
