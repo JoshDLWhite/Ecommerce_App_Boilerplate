@@ -1,43 +1,30 @@
 let books;
 
 async function renderBooks(filter) {
-  const booksWrapper = document.querySelector(" .books");
+  const booksWrapper = document.querySelector(".books");
 
-  document.body.classList += ` books__loading`
-  const books = await getBooks();
-document.body.classList.remove(`books__loading`);
-
-  console.log(books);
-
+  booksWrapper.classList += ` books__loading`
+  books = await getBooks();
+  booksWrapper.classList.remove(`books__loading`);
   
-    if (filter === `LOW_TO_HIGH`) {
-      books.sort((a, b) => (a.salePrice || a.originalPrice) - (b.salePrice || b.originalPrice));
-    }
-    else if (filter === `HIGH_TO_LOW`) {
-      books.sort((a, b) => (b.salePrice || b.originalPrice) - (a.salePrice || a.originalPrice));
-    }
-    else if (filter === `RATING`) {
-      books.sort((a, b) => b.rating - a.rating);
-    }
+  if (!books) {
+    books = await getBooks();
+  }
   
-    let ratingsHTML = '';   //ratingsHTML is an empty string here
-      for (let i = 0; i < Math.floor(4); ++i) {
-      ratingsHTML += `<i class="fas fa-star"></i>`    //ratingsHTML is a string here
-    } 
-    if (!Number.isInteger(4)) {
-      ratingsHTML += `<i class="fas fa-star-half-alt"></i>`   //ratingsHTML is a string here
-    }
-
-function ratingsHTML(rating) {    //ratingsHTML is a function here. 
-let ratingsHTML = '';
-      for (let i = 0; i < Math.floor(rating); ++i) {
-      ratingsHTML += `<i class="fas fa-star"></i>`
-    } 
-    if (!Number.isInteger(rating)) {
-      ratingsHTML += `<i class="fas fa-star-half-alt"></i>`
-    }
-    return ratingsHTML;
-}
+  if (filter === `LOW_TO_HIGH`) {
+    books.sort(
+      (a, b) => 
+        (a.salePrice || a.originalPrice) - (b.salePrice || b.originalPrice)
+    );
+  } else if (filter === `HIGH_TO_LOW`) {
+    books.sort(
+      (a, b) => 
+        (b.salePrice || b.originalPrice) - (a.salePrice || a.originalPrice)
+    );
+  } else if (filter === `RATING`) {
+    books.sort((a, b) => b.rating - a.rating);
+  }
+  
   const booksHtml = books
     .map((book) => {
       return `<div class="book">
@@ -56,6 +43,26 @@ let ratingsHTML = '';
   </div>`;
   })
   .join("");
+
+    let ratingsHTML = '';   //ratingsHTML is an empty string here
+      for (let i = 0; i < Math.floor(4); ++i) {
+      ratingsHTML += `<i class="fas fa-star"></i>`    //ratingsHTML is a string here
+    } 
+    if (!Number.isInteger(4)) {
+      ratingsHTML += `<i class="fas fa-star-half-alt"></i>`   //ratingsHTML is a string here
+    }
+
+function ratingsHTML(rating) {    //ratingsHTML is a function here. 
+let ratingsHTML = '';
+      for (let i = 0; i < Math.floor(rating); ++i) {
+      ratingsHTML += `<i class="fas fa-star"></i>`
+    } 
+    if (!Number.isInteger(rating)) {
+      ratingsHTML += `<i class="fas fa-star-half-alt"></i>`
+    }
+    return ratingsHTML;
+}
+  
 
   booksWrapper.innerHTML = booksHtml;
   // booksWrapper.innerHTML = ;
