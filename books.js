@@ -53,6 +53,8 @@ let ratingsHTML = "";
 
   booksWrapper.innerHTML = booksHtml;
   // booksWrapper.innerHTML = ;
+//test
+
 }
 
 function ratingsHTML(rating) {
