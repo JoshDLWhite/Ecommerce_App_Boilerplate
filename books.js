@@ -3,28 +3,28 @@ let books;
 async function renderBooks(filter) {
   const booksWrapper = document.querySelector(".books");
 
-  booksWrapper.classList += ` books__loading`
-  books = await getBooks();
-  booksWrapper.classList.remove(`books__loading`);
-  
+  booksWrapper.classList += ' books__loading'
+
   if (!books) {
     books = await getBooks();
   }
   
-  if (filter === `LOW_TO_HIGH`) {
+  booksWrapper.classList.remove('books__loading')
+
+  if (filter === "LOW_TO_HIGH") {
     books.sort(
-      (a, b) => 
+      (a, b) =>
         (a.salePrice || a.originalPrice) - (b.salePrice || b.originalPrice)
     );
-  } else if (filter === `HIGH_TO_LOW`) {
+  } else if (filter === "HIGH_TO_LOW") {
     books.sort(
-      (a, b) => 
+      (a, b) =>
         (b.salePrice || b.originalPrice) - (a.salePrice || a.originalPrice)
     );
-  } else if (filter === `RATING`) {
+  } else if (filter === "RATING") {
     books.sort((a, b) => b.rating - a.rating);
   }
-  
+
   const booksHtml = books
     .map((book) => {
       return `<div class="book">
@@ -41,64 +41,43 @@ async function renderBooks(filter) {
       ${priceHTML(book.originalPrice, book.salePrice)}
     </div>
   </div>`;
-  })
-  .join("");
-
-    let ratingsHTML = '';   //ratingsHTML is an empty string here
-      for (let i = 0; i < Math.floor(4); ++i) {
-      ratingsHTML += `<i class="fas fa-star"></i>`    //ratingsHTML is a string here
-    } 
-    if (!Number.isInteger(4)) {
-      ratingsHTML += `<i class="fas fa-star-half-alt"></i>`   //ratingsHTML is a string here
-    }
-
-function ratingsHTML(rating) {    //ratingsHTML is a function here. 
-let ratingsHTML = '';
-      for (let i = 0; i < Math.floor(rating); ++i) {
-      ratingsHTML += `<i class="fas fa-star"></i>`
-    } 
-    if (!Number.isInteger(rating)) {
-      ratingsHTML += `<i class="fas fa-star-half-alt"></i>`
-    }
-    return ratingsHTML;
-}
-  
+    })
+    .join("");
 
   booksWrapper.innerHTML = booksHtml;
-  // booksWrapper.innerHTML = ;
-//test - 99452986
-
-}
-
-function ratingsHTML(rating) {    ////ratingsHTML is a function here with 'rating' as its argument
-let ratingHTML = "";
-    for (let i = 0; i < Math.floor(rating); ++i) {
-      ratingHTML += `<i class="fas fa-star"></i>`
-    } 
-    if (!Number.isInteger(rating)) {
-      ratingHTML += `<i class="fas fa-star-half-alt"></i>`
-    }
-    return ratingHTML;
 }
 
 function priceHTML(originalPrice, salePrice) {
   if (!salePrice) {
-    return `$${originalPrice.toFixed(2)}` 
-  } 
-   return `<span class="book__price--normal">$${originalPrice.toFixed(2)}</span> $${salePrice.toFixed(2)}`
+    return `$${originalPrice.toFixed(2)}`;
+  }
+  return `<span class="book__price--normal">$${originalPrice.toFixed(
+    2
+  )}</span>$${salePrice.toFixed(2)}`;
+}
+
+function ratingsHTML(rating) {
+  let ratingHTML = "";
+  for (let i = 0; i < Math.floor(rating); ++i) {
+    ratingHTML += '<i class="fas fa-star"></i>\n';
+  }
+  if (!Number.isInteger(rating)) {
+    ratingHTML += '<i class="fas fa-star-half-alt"></i>\n';
+  }
+  return ratingHTML;
 }
 
 function filterBooks(event) {
-      renderBooks(event.target.value);
-  }
+  renderBooks(event.target.value);
+}
 
-setTimeout(()=> {
+setTimeout(() => {
   renderBooks();
 });
 
 // FAKE DATA
 function getBooks() {
-  new Promise((resolve) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
         {
@@ -189,7 +168,7 @@ function getBooks() {
           salePrice: null,
           rating: 4.5,
         },
-      ])
-    }, 1000)
-  })
+      ]);
+    }, 1000);
+  });
 }
